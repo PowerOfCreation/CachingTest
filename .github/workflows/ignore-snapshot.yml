@@ -1,0 +1,33 @@
+on:
+  push:
+  workflow_dispatch: 
+
+name: Unique cache key
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache/restore@v4.2.2
+        id: cache-restore
+        with:
+            key: ${{ runner.os }}-cache-${{ github.run_id }}
+            path: cache
+            restore-keys: |
+              ${{ runner.os }}-cache-
+      
+      - run: mkdir -p cache/test
+    
+      - run: echo "${{ github.run_id }}" >> cache/file.txt
+      - run: echo "${{ github.run_id }}-SNAPSHOT" >> cache/test/file-SNAPSHOT
+          
+      - run: cat cache/file.txt | tee "$GITHUB_STEP_SUMMARY"
+      - run: cat cache/test/file-SNAPSHOT | tee "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/cache/save@v4.2.2
+        if: always()
+        with:
+          path: |
+            cache
+            !cache/**/*-SNAPSHOT
+          key: ${{ steps.cache-restore.outputs.cache-primary-key }}
