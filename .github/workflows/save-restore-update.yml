@@ -12,6 +12,8 @@ jobs:
             key: ${{ runner.os }}-cache
             path: |
                 cache
+      
+      - run: mkdir -p cache
     
       - run: echo "${{ github.run_id }}" >> cache/file.txt
           
