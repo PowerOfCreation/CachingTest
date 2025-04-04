@@ -2,6 +2,8 @@ on:
   push:
   workflow_dispatch: 
 
+name: Unique cache key
+
 jobs:
   main:
     runs-on: ubuntu-latest
