@@ -9,7 +9,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/cache/restore@v4
+      - uses: actions/cache/restore@v4.2.2
         id: cache-restore
         with:
             key: ${{ runner.os }}-cache
@@ -21,7 +21,7 @@ jobs:
           
       - run: cat cache/file.txt | tee "$GITHUB_STEP_SUMMARY"
 
-      - uses: actions/cache/save@v4
+      - uses: actions/cache/save@v4.2.2
         if: always()
         with:
           path: cache
