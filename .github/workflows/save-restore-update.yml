@@ -1,0 +1,23 @@
+on:
+  push:
+  workflow_dispatch: 
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/cache/restore@v4
+        id: cache-restore
+        with:
+            key: ${{ runner.os }}-cache
+            path: |
+                cache
+    
+      - run: echo "${{ github.run_id }}" >> cache/file.txt
+          
+      - run: cat cache/file.txt | tee "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          key: ${{ steps.cache-restore.outputs.cache-primary-key }}
