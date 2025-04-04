@@ -10,8 +10,7 @@ jobs:
         id: cache-restore
         with:
             key: ${{ runner.os }}-cache
-            path: |
-                cache
+            path: cache
       
       - run: mkdir -p cache
     
@@ -22,4 +21,5 @@ jobs:
       - uses: actions/cache/save@v4
         if: always()
         with:
+          path: cache
           key: ${{ steps.cache-restore.outputs.cache-primary-key }}
