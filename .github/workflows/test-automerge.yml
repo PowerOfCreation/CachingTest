@@ -1,0 +1,32 @@
+on: [ push ]
+
+name: Test Automerge
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Hi"
+  merge-pull-request:
+    needs: main
+    if: ${{ success() && github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/') }}
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: Merge pull request
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const { context, github } = require('@actions/github');
+            const pullRequest = context.payload.pull_request;
+            if (pullRequest) {
+              await github.rest.pulls.merge({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                pull_number: pullRequest.number,
+              });
+            } else {
+              console.log('No pull request found.');
+            }
