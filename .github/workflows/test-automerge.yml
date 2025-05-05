@@ -22,7 +22,7 @@ jobs:
             const { context, github } = require('@actions/github');
             const pullRequest = context.payload.pull_request;
             if (pullRequest) {
-              await github.pulls.merge({
+              await github.rest.pulls.merge({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: pullRequest.number,
