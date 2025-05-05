@@ -1,6 +1,6 @@
 on: [ push ]
 
-name: Test Secret for re-running jobs
+name: Test Automerge
 
 jobs:
   main:
