@@ -6,7 +6,7 @@ jobs:
   main:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hi"
+      - run: echo "Hi" && exit 1
   merge-pull-request:
     needs: main
     if: ${{ success() && github.event_name == 'pull_request' && startsWith(github.head_ref, 'renovate/') }}
